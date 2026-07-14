@@ -238,7 +238,7 @@
     box-shadow: 0 0 40px rgba(0,0,0,0.9);
   }
   @media (max-width: 600px) {
-    .gate-panel { transition: transform 4s cubic-bezier(.7,0,.3,1), opacity 4s ease !important; }
+    .gate-panel { transition: transform 2.9s cubic-bezier(.7,0,.3,1), opacity 2.9s ease !important; }
     .curtain-side { width: clamp(45px, 16vw, 75px); }
     .curtain-side .pillar-center { transform: translate(-50%, -50%) scale(0.45); }
     .curtain-side .rope-wrap { transform: scale(0.6); transform-origin: top center; right: 15%; }
@@ -798,7 +798,7 @@
         requestAnimationFrame(()=>gate.classList.add('opening'));
         setTimeout(()=>seam.classList.add('dim'), 200);
 
-        const gateDuration = window.innerWidth <= 600 ? 4000 : 2150;
+        const gateDuration = window.innerWidth <= 600 ? 2900 : 2150;
         setTimeout(()=>{
           document.documentElement.style.overflow = '';
           document.body.style.overflow = '';
