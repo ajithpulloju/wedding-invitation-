@@ -101,11 +101,11 @@
     cursor:pointer;appearance:none;
     box-shadow:0 0 0 0 rgba(199,154,75,.25), inset 0 0 24px rgba(0,0,0,.5);
     transition:transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s ease, opacity .4s ease;
-    animation:badgeBreathe 3.4s ease-in-out infinite;
+    animation:badgeBreathe 4.5s ease-in-out infinite;
   }
   @keyframes badgeBreathe{
-    0%,100%{box-shadow:0 0 0 0 rgba(199,154,75,.18), inset 0 0 24px rgba(0,0,0,.5);}
-    50%{box-shadow:0 0 0 10px rgba(199,154,75,0), inset 0 0 30px rgba(0,0,0,.5);}
+    0%,100%{box-shadow:0 0 0 0 rgba(199,154,75,.1), inset 0 0 24px rgba(0,0,0,.5);}
+    50%{box-shadow:0 0 0 6px rgba(199,154,75,0), inset 0 0 30px rgba(0,0,0,.5);}
   }
   .tap-badge:hover{transform:scale(1.045);}
   .tap-badge.pressed{transform:scale(.9);}
@@ -118,11 +118,11 @@
   .ring-inner{width:158px;height:158px;border:1px dashed rgba(232,206,155,.4);
     animation:ringSpin 22s linear infinite;}
   @keyframes ringSpin{to{transform:translate(-50%,-50%) rotate(360deg);}}
-  .ring-pulse{width:170px;height:170px;border:1px solid var(--gold);opacity:.7;
-    animation:ringPulse 2.6s ease-out infinite;}
+  .ring-pulse{width:170px;height:170px;border:1px solid var(--gold);opacity:.4;
+    animation:ringPulse 4s ease-out infinite;}
   @keyframes ringPulse{
-    0%{transform:translate(-50%,-50%) scale(1);opacity:.6;}
-    100%{transform:translate(-50%,-50%) scale(1.35);opacity:0;}
+    0%{transform:translate(-50%,-50%) scale(1);opacity:.4;}
+    100%{transform:translate(-50%,-50%) scale(1.15);opacity:0;}
   }
   .tap-badge.launch .ring{animation:none;transition:transform .7s cubic-bezier(.16,.84,.44,1), opacity .7s ease;
     transform:translate(-50%,-50%) scale(2.6);opacity:0;}
