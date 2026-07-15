@@ -401,6 +401,62 @@
   .t-date{font-size:.85rem;color:var(--text);margin-bottom:4px;}
   .t-text{font-size:.85rem;color:var(--text-muted);}
 
+  /* ============ SECTION 4.5 — Wedding Live ============ */
+  .live-container { max-width: 900px; margin: 0 auto; position: relative; padding: 0 15px; }
+  .live-badge {
+    position: absolute; top: -15px; left: 30px; background: rgba(220, 38, 38, 0.9);
+    color: white; font-size: 0.75rem; font-weight: bold; letter-spacing: 0.1em;
+    padding: 4px 12px; border-radius: 20px; z-index: 10; display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.4); border: 1px solid rgba(255, 255, 255, 0.2); overflow: hidden;
+  }
+  .live-badge::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-20deg); animation: shimmer 3s infinite;
+  }
+  @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
+  .live-dot { width: 8px; height: 8px; background: white; border-radius: 50%; animation: pulse-red 1.5s infinite; }
+  @keyframes pulse-red {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+  }
+  .live-viewer-count {
+    position: absolute; top: -15px; right: 30px; background: rgba(20, 20, 20, 0.9);
+    color: var(--text-muted); font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;
+    z-index: 10; border: 1px solid rgba(199, 154, 75, 0.3);
+  }
+  .live-wrapper {
+    position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px;
+    border: 2px solid rgba(199, 154, 75, 0.4); box-shadow: 0 0 30px rgba(199, 154, 75, 0.15);
+    overflow: hidden; transition: all 0.4s ease; background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  .live-wrapper:hover { box-shadow: 0 0 40px rgba(199, 154, 75, 0.25); border-color: rgba(199, 154, 75, 0.7); }
+  .glassmorphism {
+    background: rgba(255, 255, 255, 0.02); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(199, 154, 75, 0.1);
+  }
+  .live-countdown-card {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; padding: 20px; z-index: 5; transition: opacity 0.8s ease;
+  }
+  .live-countdown-card h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--gold); margin-bottom: 10px;
+  }
+  .live-countdown-card .live-date {
+    font-size: clamp(0.9rem, 2vw, 1.2rem); color: var(--text); letter-spacing: 0.1em; margin-bottom: 40px;
+  }
+  .live-pulse-ring { width: 60px; height: 60px; border-radius: 50%; background: rgba(199, 154, 75, 0.2); position: relative; }
+  .live-pulse-ring::before, .live-pulse-ring::after {
+    content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--gold);
+    animation: gold-pulse 2s linear infinite;
+  }
+  .live-pulse-ring::after { animation-delay: 1s; }
+  @keyframes gold-pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
+  .youtube-live-iframe { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 6; display: none; }
+
   /* ============ SECTION 5 — Venue + Dress Code ============ */
   .venue-name{text-align:center;font-size:1.5rem;color:var(--text);margin-bottom:6px;}
   .venue-address{text-align:center;color:var(--text-muted);font-size:.95rem;margin-bottom:36px;}
@@ -648,6 +704,36 @@
       <div class="t-title" data-i18n="reception">Reception</div>
       <div class="t-date" data-i18n="tDate3">Jul 2, 2026, 7:30 PM</div>
       <div class="t-text" data-i18n="receptionText">Your gracious presence is requested at the reception at 7:30 PM onwards.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 4.5 — WEDDING LIVE ============ -->
+<section id="live" style="position: relative;">
+  <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+  <h2 class="section-title script" data-i18n="liveTitle">🔴 Wedding Live</h2>
+  <div class="divider"><span>&#9825;</span></div>
+  <p style="text-align:center; color:var(--text-muted); font-size:1rem; margin-bottom:40px; font-style:italic; padding:0 20px;" data-i18n="liveSubtitle">"Join us virtually and witness our special moment live."</p>
+
+  <div class="live-container reveal">
+    <div class="live-badge">
+      <span class="live-dot"></span>LIVE
+    </div>
+    <div class="live-viewer-count">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:middle; margin-right:4px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      <span>Waiting...</span>
+    </div>
+    
+    <div id="live-stream-wrapper" class="live-wrapper glassmorphism">
+      <!-- Pre-live Countdown Card -->
+      <div id="live-countdown-card" class="live-countdown-card">
+        <h3 data-i18n="liveSoon">Live stream will begin soon</h3>
+        <p class="live-date" data-i18n="liveDateText">June 30, 2026 at 10:30 AM</p>
+        <div class="live-pulse-ring"></div>
+      </div>
+
+      <!-- YouTube Iframe (Hidden by default until live) -->
+      <iframe id="youtube-live-iframe" class="youtube-live-iframe" src="" title="Wedding Live Stream" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </div>
 </section>
@@ -1098,7 +1184,11 @@
     pDate2:{en:"Jun 28, 2026, 8:30 PM", te:"జూన్ 28, 2026, రాత్రి 8:30"},
     pDate3:{en:"Jun 29, 2026, 9:00 PM", te:"జూన్ 29, 2026, రాత్రి 9:00"},
     footerNamesStr:{en:"Veer &amp; Zara", te:"వీర్ &amp; జారా"},
-    footerCreditStr:{en:"VEER &amp; ZARA &nbsp;·&nbsp; 30 JUNE 2026", te:"వీర్ &amp; జారా &nbsp;·&nbsp; 30 జూన్ 2026"}
+    footerCreditStr:{en:"VEER &amp; ZARA &nbsp;·&nbsp; 30 JUNE 2026", te:"వీర్ &amp; జారా &nbsp;·&nbsp; 30 జూన్ 2026"},
+    liveTitle:{en:"🔴 Wedding Live", te:"🔴 వెడ్డింగ్ లైవ్"},
+    liveSubtitle:{en:"\"Join us virtually and witness our special moment live.\"", te:"\"మా ప్రత్యేక క్షణాన్ని ప్రత్యక్షంగా వీక్షించడానికి మాతో వర్చువల్‌గా చేరండి.\""},
+    liveSoon:{en:"Live stream will begin soon", te:"లైవ్ స్ట్రీమ్ త్వరలో ప్రారంభమవుతుంది"},
+    liveDateText:{en:"June 30, 2026 at 10:30 AM", te:"జూన్ 30, 2026 ఉదయం 10:30 కి"}
   };
 
   const langBtn = document.getElementById('lang-toggle');
@@ -1155,6 +1245,73 @@
     requestAnimationFrame(animate);
   }
   animate();
+
+  // Wedding Live Stream Logic
+  // Call `startLiveStream("YOUR_YOUTUBE_EMBED_URL")` to switch from countdown to live video
+  function startLiveStream(embedUrl) {
+    const countdownCard = document.getElementById('live-countdown-card');
+    const iframe = document.getElementById('youtube-live-iframe');
+    const viewerCount = document.querySelector('.live-viewer-count span');
+    
+    if (countdownCard && iframe) {
+      countdownCard.style.opacity = '0';
+      setTimeout(() => {
+        countdownCard.style.display = 'none';
+        iframe.src = embedUrl;
+        iframe.style.display = 'block';
+        iframe.animate([{opacity: 0}, {opacity: 1}], {duration: 1000, fill: 'forwards'});
+      }, 800);
+      
+      if (viewerCount) {
+        let count = Math.floor(Math.random() * 50) + 10;
+        viewerCount.innerText = count + ' watching';
+        setInterval(() => {
+          count += Math.floor(Math.random() * 5) - 1;
+          if(count < 0) count = 0;
+          viewerCount.innerText = count + ' watching';
+        }, 5000);
+      }
+    }
+  }
+  window.startLiveStream = startLiveStream;
+
+  // Listen for fullscreen events to toggle audio
+  document.addEventListener('fullscreenchange', () => {
+    const iframe = document.getElementById('youtube-live-iframe');
+    const audioEl = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-toggle');
+    
+    // If the iframe just went fullscreen
+    if (document.fullscreenElement === iframe) {
+      // 1. Mute the website background music
+      if (audioEl) {
+        audioEl.pause();
+      }
+      if (musicBtn) {
+        musicBtn.classList.add('paused');
+      }
+      // 2. Unmute the YouTube video via its API
+      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    } 
+    // If exited fullscreen
+    else if (!document.fullscreenElement) {
+      // 1. Mute the YouTube video
+      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+      // 2. Unmute and resume website background music
+      if (audioEl) {
+        audioEl.play().catch(()=>{});
+      }
+      if (musicBtn) {
+        musicBtn.classList.remove('paused');
+      }
+    }
+  });
+
+  // For testing purposes: automatically start the live stream after 3 seconds
+  setTimeout(() => {
+    startLiveStream("https://www.youtube.com/embed/LtXRn-aOk-0?autoplay=1&mute=1&enablejsapi=1");
+  }, 3000);
 </script>
 
 </body>
