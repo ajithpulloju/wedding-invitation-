@@ -1275,37 +1275,56 @@
   }
   window.startLiveStream = startLiveStream;
 
-  // Listen for fullscreen events to toggle audio
-  document.addEventListener('fullscreenchange', () => {
+  // Function to handle audio toggling
+  function toggleAudioForVideo(isPlayingOrFullscreen) {
     const iframe = document.getElementById('youtube-live-iframe');
     const audioEl = document.getElementById('bg-music');
     const musicBtn = document.getElementById('music-toggle');
-    
-    // If the iframe just went fullscreen
-    if (document.fullscreenElement === iframe) {
-      // 1. Mute the website background music
-      if (audioEl) {
-        audioEl.pause();
+
+    if (isPlayingOrFullscreen) {
+      // Mute website, unmute video
+      if (audioEl) audioEl.pause();
+      if (musicBtn) musicBtn.classList.add('paused');
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
       }
-      if (musicBtn) {
-        musicBtn.classList.add('paused');
+    } else {
+      // Mute video, unmute website
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
       }
-      // 2. Unmute the YouTube video via its API
-      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    } 
-    // If exited fullscreen
-    else if (!document.fullscreenElement) {
-      // 1. Mute the YouTube video
-      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-      // 2. Unmute and resume website background music
-      if (audioEl) {
-        audioEl.play().catch(()=>{});
-      }
-      if (musicBtn) {
-        musicBtn.classList.remove('paused');
-      }
+      if (audioEl) audioEl.play().catch(()=>{});
+      if (musicBtn) musicBtn.classList.remove('paused');
     }
+  }
+
+  // 1. Listen for Fullscreen events (Desktop & Android Chrome)
+  const handleFullscreenChange = () => {
+    const iframe = document.getElementById('youtube-live-iframe');
+    const fsElement = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+    toggleAudioForVideo(fsElement === iframe);
+  };
+  ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'].forEach(evt => {
+    document.addEventListener(evt, handleFullscreenChange);
+  });
+
+  // 2. Listen for YouTube Player State changes (Mobile / iOS fallback)
+  // On iOS, tapping play natively fullscreens the video but bypasses the parent document's fullscreen API.
+  window.addEventListener('message', (event) => {
+    if (event.origin !== 'https://www.youtube.com') return;
+    try {
+      const data = JSON.parse(event.data);
+      if (data.event === 'infoDelivery' && data.info && data.info.playerState !== undefined) {
+        const state = data.info.playerState;
+        // 1 = Playing, 2 = Paused, 0 = Ended
+        if (state === 1) {
+          toggleAudioForVideo(true);
+        } else if (state === 2 || state === 0) {
+          toggleAudioForVideo(false);
+        }
+      }
+    } catch (e) {}
   });
 
   // For testing purposes: automatically start the live stream after 3 seconds
