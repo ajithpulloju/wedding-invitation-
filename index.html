@@ -1257,7 +1257,18 @@
       countdownCard.style.opacity = '0';
       setTimeout(() => {
         countdownCard.style.display = 'none';
-        iframe.src = embedUrl;
+        
+        // Ensure iOS plays inline and API is enabled
+        try {
+          const urlObj = new URL(embedUrl);
+          urlObj.searchParams.set('enablejsapi', '1');
+          urlObj.searchParams.set('playsinline', '1');
+          iframe.src = urlObj.toString();
+        } catch(e) {
+          // Fallback if embedUrl is relative or malformed
+          iframe.src = embedUrl + (embedUrl.includes('?') ? '&' : '?') + 'enablejsapi=1&playsinline=1';
+        }
+        
         iframe.style.display = 'block';
         iframe.animate([{opacity: 0}, {opacity: 1}], {duration: 1000, fill: 'forwards'});
       }, 800);
