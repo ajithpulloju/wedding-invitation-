@@ -844,6 +844,12 @@
 </footer>
 
 <script>
+  // Force scroll to top on load and prevent browser scroll restoration
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+
   // ===== Intro Gate: Tap to Open =====
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
