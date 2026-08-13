@@ -386,10 +386,7 @@
   .carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:22px;}
   .carousel-dots span{width:7px;height:7px;border-radius:50%;background:rgba(199,154,75,.35);transition:all .3s ease;cursor:pointer;}
   .carousel-dots span.active{background:var(--gold);width:22px;border-radius:4px;}
-  .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.4);color:var(--gold-soft);border:1px solid rgba(199,154,75,.3);width:40px;height:40px;border-radius:50%;font-size:1.2rem;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;transition:background .3s ease, transform .3s ease;}
-  .carousel-btn:hover{background:rgba(0,0,0,.7);transform:translateY(-50%) scale(1.1);border-color:var(--gold);}
-  .carousel-btn.prev{left:10px;}
-  .carousel-btn.next{right:10px;}
+
 
   /* ============ SECTION 4 — Countdown + Timeline ============ */
   .countdown-grid{display:flex;justify-content:center;gap:clamp(14px,4vw,44px);flex-wrap:wrap;margin-top:10px;}
@@ -669,8 +666,7 @@
   <div class="divider"><span>&#9825;</span></div>
 
   <div class="carousel" id="carousel">
-    <button class="carousel-btn prev" id="carousel-prev" aria-label="Previous image">&#10094;</button>
-    <button class="carousel-btn next" id="carousel-next" aria-label="Next image">&#10095;</button>
+
     <div class="carousel-slide active" style="background:url('new/1.jpg') center/cover no-repeat;"></div>
     <div class="carousel-slide" style="background:url('new/5.jpg') center/cover no-repeat;"></div>
     <div class="carousel-slide" style="background:url('new/6.jpg') center/cover no-repeat;"></div>
@@ -1082,15 +1078,38 @@
     }
 
     dots.forEach(d=>d.addEventListener('click', ()=>show(parseInt(d.dataset.i))));
-    document.getElementById('carousel-next').addEventListener('click', next);
-    document.getElementById('carousel-prev').addEventListener('click', prev);
-
     let startX = 0;
+    let isDragging = false;
+    carousel.style.cursor = 'grab';
+
+    // Touch events
     carousel.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive: true});
     carousel.addEventListener('touchend', e => {
       const diffX = e.changedTouches[0].clientX - startX;
       if (diffX > 50) prev();
       else if (diffX < -50) next();
+    });
+
+    // Mouse drag events
+    carousel.addEventListener('mousedown', e => {
+      startX = e.clientX;
+      isDragging = true;
+      carousel.style.cursor = 'grabbing';
+      e.preventDefault(); // prevent image drag
+    });
+    carousel.addEventListener('mouseup', e => {
+      if(!isDragging) return;
+      isDragging = false;
+      carousel.style.cursor = 'grab';
+      const diffX = e.clientX - startX;
+      if (diffX > 50) prev();
+      else if (diffX < -50) next();
+    });
+    carousel.addEventListener('mouseleave', () => {
+      if(isDragging) {
+        isDragging = false;
+        carousel.style.cursor = 'grab';
+      }
     });
 
     resetAutoPlay();
